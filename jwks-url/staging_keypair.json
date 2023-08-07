@@ -1,0 +1,22 @@
+{
+    "keys": [
+        {
+            "kty": "EC",
+            "use": "sig",
+            "crv": "P-256",
+            "kid": "ACEPLP-STAGING-SIGNATURE-KEY",
+            "x": "GXrVi9DCx2NGLmn_GeIVwtwEdFDfMy_H8w3D5oolkN0",
+            "y": "opu7MZDddswMBDcEqdVKRCbbC5vRlCbnZuJnvj7o_sk",
+            "alg": "ES256"
+        },
+        {
+            "kty": "EC",
+            "use": "enc",
+            "crv": "P-256",
+            "kid": "ACEPLP-STAGING-ENCRYPTION-KEY",
+            "x": "1di-tbP9Axgcjiv2lqwgUIcS9n-VMAyv0DKncz1mKQI",
+            "y": "TCWqvxXUWYxuNb8uIT1dsqpAI6xS8zNmxkmWXlYftXw",
+            "alg": "ECDH-ES+A256KW"
+        }
+    ]
+}
