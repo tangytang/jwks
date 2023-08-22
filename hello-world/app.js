@@ -1,69 +1,26 @@
-'use strict';
-
-const jose = require('node-jose');
-const crypto = require('crypto');
-
-let response
-
-// Function to generate JWKS
-async function jwks() {
-    try {
-        // CREATE JWK
-        const { privateKey, publicKey } = crypto.generateKeyPairSync('ec', {
-            namedCurve: 'prime256v1',
-            publicKeyEncoding: {
-                type: 'spki',
-                format: 'pem',
-            },
-            privateKeyEncoding: {
-                type: 'pkcs8',
-                format: 'pem',
-            },
-        });
-
-        const cryptoKey = await jose.JWK.asKey(privateKey, 'pem');
-        const publicKeyJSON = cryptoKey.toJSON();
-
-        const jwksEndpoint = {
-            keys: [{
-                ...publicKeyJSON,
-                use: "sig",
-                crv: "P-256",
-                alg: "ES256",
-            }],
-        };
-
-        return jwksEndpoint;
-    } catch (err) {
-        console.error("Error generating JWKS:", err);
-        throw err;
-    }
-}
-
 const lambdaHandler = async (event, context) => {
-    try {
-        // Generate the JWKS
-        const jwksEndpoint = await jwks();
-
-        // Return the JWKS in the response
-        const response = {
-            'statusCode': 200,
-            'body': JSON.stringify(jwksEndpoint),
-        };
-
-        console.log(response)
-        return response;
-    } catch (err) {
-        console.error("Lambda Error:", err);
-
-        const errorResponse = {
-            'statusCode': 500,
-            'body': JSON.stringify({
-                message: 'An error occurred',
-            }),
-        };
-        return errorResponse;
-    }
+  return {
+    keys: [
+      {
+        kty: "EC",
+        kid: "Jov7Ga2dU3DVZnyaWmIiGaVrlYNx9HIARM0Q0hPwkYE",
+        crv: "P-256",
+        x: "D0Xml8RD1V3rWUcOtitop6coTClv6tiapBBWB7R7bcs",
+        y: "jlkJnF8okWLL3cJQ6P4hLtJDV4CU55FquILCzNy1neE",
+        use: "sig",
+        alg: "ES256",
+      },
+      {
+        kty: "EC",
+        kid: "TETSGH-8iM5ZeW_QjnmJE4k-ZApK8twtcpte7QW3yuo",
+        crv: "P-256",
+        x: "57zVl5nUDgVhA1-VbjAuw9vgTM8clawGZqY0KdmekU0",
+        y: "4NgcWtPfuJ810WfGR9y04rTUjTkQxUHNHrD8dJJqwlg",
+        use: "enc",
+        alg: "ECDH-ES+A256KW",
+      },
+    ],
+  };
 };
 
 exports.lambdaHandler = lambdaHandler;
